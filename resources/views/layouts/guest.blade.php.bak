@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }} - Attendance System</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Figtree', sans-serif;
+                background: #f8f9fa;
+                overflow-x: hidden;
+            }
+
+            .login-wrapper {
+                display: flex;
+                min-height: 100vh;
+            }
+
+            /* Left Side - Branding & Illustration */
+            .login-left {
+                flex: 1;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 40px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .login-left::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -50%;
+                width: 500px;
+                height: 500px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .login-left::after {
+                content: '';
+                position: absolute;
+                bottom: -30%;
+                left: -30%;
+                width: 400px;
+                height: 400px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 50%;
+                animation: float 8s ease-in-out infinite;
+                animation-delay: 2s;
+            }
+
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(30px); }
+            }
+
+            @keyframes slideInLeft {
+                from {
+                    opacity: 0;
+                    transform: translateX(-50px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            .login-content {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+                color: white;
+                animation: slideInLeft 0.8s ease-out;
+            }
+
+            .brand-icon {
+                font-size: 80px;
+                margin-bottom: 20px;
+                animation: bounce 2s ease-in-out infinite;
+            }
+
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-20px); }
+            }
+
+            .brand-title {
+                font-size: 42px;
+                font-weight: 700;
+                margin-bottom: 12px;
+                letter-spacing: -1px;
+            }
+
+            .brand-subtitle {
+                font-size: 16px;
+                opacity: 0.9;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+
+            .brand-features {
+                text-align: left;
+                margin-top: 40px;
+                space-y: 12px;
+            }
+
+            .feature-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 16px;
+                opacity: 0.95;
+                animation: slideInLeft 0.8s ease-out;
+            }
+
+            .feature-item:nth-child(1) { animation-delay: 0.1s; }
+            .feature-item:nth-child(2) { animation-delay: 0.2s; }
+            .feature-item:nth-child(3) { animation-delay: 0.3s; }
+
+            .feature-icon {
+                font-size: 24px;
+                margin-right: 12px;
+            }
+
+            .feature-text {
+                font-size: 14px;
+            }
+
+            /* Right Side - Login Form */
+            .login-right {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 40px;
+                background: #f8f9fa;
+            }
+
+            .login-form-container {
+                width: 100%;
+                max-width: 420px;
+                animation: slideInLeft 0.8s ease-out;
+                animation-direction: reverse;
+            }
+
+            .form-header {
+                margin-bottom: 32px;
+            }
+
+            .form-title {
+                font-size: 28px;
+                font-weight: 700;
+                color: #1a1a2e;
+                margin-bottom: 8px;
+            }
+
+            .form-subtitle {
+                font-size: 14px;
+                color: #6c757d;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+                animation: slideInLeft 0.8s ease-out;
+            }
+
+            .form-group:nth-child(1) { animation-delay: 0.1s; }
+            .form-group:nth-child(2) { animation-delay: 0.2s; }
+            .form-group:nth-child(3) { animation-delay: 0.3s; }
+            .form-group:nth-child(4) { animation-delay: 0.4s; }
+
+            .form-label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                color: #1a1a2e;
+                margin-bottom: 8px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .form-input {
+                width: 100%;
+                padding: 12px 16px;
+                border: 2px solid #e9ecef;
+                border-radius: 8px;
+                font-size: 14px;
+                transition: all 0.3s ease;
+                background: white;
+            }
+
+            .form-input:focus {
+                outline: none;
+                border-color: #667eea;
+                box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+                background: white;
+            }
+
+            .form-input::placeholder {
+                color: #adb5bd;
+            }
+
+            .form-checkbox {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+            }
+
+            .checkbox-label {
+                display: flex;
+                align-items: center;
+                font-size: 13px;
+                color: #495057;
+                cursor: pointer;
+            }
+
+            .checkbox-input {
+                width: 18px;
+                height: 18px;
+                margin-right: 8px;
+                cursor: pointer;
+                accent-color: #667eea;
+            }
+
+            .forgot-password-link {
+                font-size: 13px;
+                color: #667eea;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            }
+
+            .forgot-password-link:hover {
+                color: #764ba2;
+                text-decoration: underline;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 13px 24px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 16px;
+            }
+
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            }
+
+            .btn-submit:active {
+                transform: translateY(0);
+            }
+
+            .form-divider {
+                display: flex;
+                align-items: center;
+                margin: 24px 0;
+                color: #adb5bd;
+                font-size: 12px;
+            }
+
+            .divider-line {
+                flex: 1;
+                height: 1px;
+                background: #e9ecef;
+            }
+
+            .divider-text {
+                margin: 0 12px;
+            }
+
+            .register-link-container {
+                text-align: center;
+                padding-top: 16px;
+                border-top: 1px solid #e9ecef;
+            }
+
+            .register-text {
+                font-size: 13px;
+                color: #6c757d;
+            }
+
+            .register-link {
+                color: #667eea;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+            .register-link:hover {
+                color: #764ba2;
+                text-decoration: underline;
+            }
+
+            .alert-error {
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                border: 1px solid rgba(245, 87, 108, 0.3);
+                color: white;
+                padding: 14px 16px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                font-size: 13px;
+                animation: slideDown 0.4s ease-out;
+            }
+
+            .alert-error ul {
+                list-style: none;
+                margin-top: 8px;
+            }
+
+            .alert-error li {
+                margin-bottom: 4px;
+            }
+
+            .alert-success {
+                background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+                border: 1px solid rgba(132, 250, 176, 0.3);
+                color: #2d5016;
+                padding: 14px 16px;
+                border-radius: 8px;
+                margin-bottom: 20px;
+                font-size: 13px;
+                animation: slideDown 0.4s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .login-wrapper {
+                    flex-direction: column;
+                }
+
+                .login-left {
+                    min-height: 250px;
+                    padding: 30px 20px;
+                }
+
+                .login-right {
+                    padding: 30px 20px;
+                }
+
+                .brand-title {
+                    font-size: 32px;
+                }
+
+                .brand-features {
+                    display: none;
+                }
+
+                .form-title {
+                    font-size: 24px;
+                }
+
+                .login-form-container {
+                    max-width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="login-wrapper">
+            <!-- Left Side -->
+            <div class="login-left">
+                <div class="login-content">
+                    <div class="brand-icon">🎖️</div>
+                    <h1 class="brand-title">ABSENSI</h1>
+                    <p class="brand-subtitle">Sistem Pencatatan Kehadiran<br>Profesional & Terpercaya</p>
+                    
+                    <div class="brand-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Check-in dengan foto real-time</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Dashboard analitik lengkap</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span class="feature-text">Laporan terperinci & akurat</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="login-right">
+                <div class="login-form-container">
+                    {{ $slot }}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
