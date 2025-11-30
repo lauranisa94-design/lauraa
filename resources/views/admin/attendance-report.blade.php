@@ -214,7 +214,7 @@
                         <tbody>
                             @forelse($attendances as $a)
                                 <tr class="detail-row border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $a->date->format('d M Y') }}</td>
+                                    <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">{{ $a->date->copy()->subMonth()->format('d M Y') }}</td>
                                     <td class="px-6 py-4 text-gray-700 dark:text-gray-300">{{ $a->user->name }}</td>
                                     <td class="px-6 py-4">
                                         @if($a->check_in)

@@ -30,7 +30,44 @@
                     </div>
                 </div>
             </div>
-                </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-card bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">🕒 Aktivitas Terbaru</h3>
+
+                @if(isset($activities) && $activities->count())
+                    <ul class="space-y-3">
+                        @foreach($activities as $a)
+                            <li class="activity-item flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <div class="w-12 text-sm text-gray-500">
+                                    <div class="font-semibold text-gray-900 dark:text-white">{{ $a->date->format('d M Y') }}</div>
+                                    <div class="text-xs">{{ $a->date->format('l') }}</div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ optional($a->user)->name ?? auth()->user()->name }}</div>
+                                            <div class="text-xs text-gray-500 dark:text-gray-400">Lokasi: {{ $a->location ?? '-' }}</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm">
+                                                <span class="inline-block px-2 py-1 text-xs rounded-full font-semibold {{ $a->check_in ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' }}">
+                                                    {{ $a->check_in ? 'Hadir' : 'Absen' }}
+                                                </span>
+                                            </div>
+                                            <div class="text-xs text-gray-500 mt-1">
+                                                In: {{ $a->check_in ? $a->check_in->format('H:i') : '-' }}
+                                                • Out: {{ $a->check_out ? $a->check_out->format('H:i') : '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="text-center text-gray-500 py-8">Belum ada aktivitas terbaru.</div>
+                @endif
             </div>
         </div>
     </div>

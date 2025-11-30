@@ -236,7 +236,7 @@
                 gsap.to(this, {
                     duration: 0.3,
                     y: 0,
-                    boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
+                    boxShadow: "0 10px 20px rgba(0, 0, 0, 0.1)",
                     ease: "power2.out"
                 });
             });

@@ -9,9 +9,9 @@ Route::get('/', function () {
 });
 
 // Dashboard pengguna (autentikasi & verifikasi)
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+use App\Http\Controllers\DashboardController;
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Group route untuk user yang sudah login
 Route::middleware('auth')->group(function () {

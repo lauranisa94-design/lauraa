@@ -22,10 +22,10 @@ class AdminUserSeeder extends Seeder
 
         // Create Sample Soldier/Staff Users
         $soldiers = [
-            ['name' => 'Andi Wijaya', 'email' => 'andi@example.com'],
-            ['name' => 'Siti Nurhaliza', 'email' => 'siti@example.com'],
-            ['name' => 'Bambang Suryanto', 'email' => 'bambang@example.com'],
-            ['name' => 'Dina Kusuma', 'email' => 'dina@example.com'],
+            ['name' => 'rafi al-mudzaki', 'email' => 'rafi@example.com'],
+            ['name' => 'dika nursyamsi', 'email' => 'dika@example.com'],
+            ['name' => 'haura nur rizki fadillah', 'email' => 'haura@example.com'],
+            ['name' => 'laura nisa intan putri rusmana', 'email' => 'laura@example.com'],
             ['name' => 'Eka Putra', 'email' => 'eka@example.com'],
             ['name' => 'Fajar Pratama', 'email' => 'fajar@example.com'],
             ['name' => 'Gita Sari', 'email' => 'gita@example.com'],
