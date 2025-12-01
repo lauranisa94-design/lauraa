@@ -127,37 +127,7 @@ CREATE TABLE attendances (
 ```
 
 ## Entity Relationship Diagram (ERD)
-```mermaid
-erDiagram
-    USERS ||--o{ ATTENDANCES : "mencatat"
-    USERS ||--o{ SESSIONS : "login"
-    USERS {
-        bigint id
-        string name
-        string email
-        string password
-        string role
-        datetime email_verified_at
-    }
-    ATTENDANCES {
-        bigint id
-        bigint user_id
-        date date
-        datetime check_in
-        datetime check_out
-        string note
-        string location
-        string photo
-    }
-    SESSIONS {
-        string id
-        bigint user_id
-        string ip_address
-        text user_agent
-        longtext payload
-        int last_activity
-    }
-```
+![ERD Sistem Absensi](erdplus.png)
 
 ## UML (Class Diagram Simplified)
 ```mermaid
